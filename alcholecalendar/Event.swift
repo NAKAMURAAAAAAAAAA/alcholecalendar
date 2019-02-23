@@ -11,6 +11,7 @@ import RealmSwift
 class Event: Object {
     
     @objc dynamic var date: String = ""
+    @objc dynamic var editdate: String = ""
     @objc dynamic var beer: Int = 0
     @objc dynamic var highball: Int = 0
     @objc dynamic var wine: Int = 0

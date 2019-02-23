@@ -16,18 +16,11 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
 
     
     @IBOutlet weak var TableView: UITableView!
-    //飲み物文字
-    /*@IBOutlet weak var cocktailtext: UILabel!
-    @IBOutlet weak var winetext: UILabel!
-    @IBOutlet weak var highballtext: UILabel!
-    @IBOutlet weak var beertext: UILabel!*/
+   
     //日付表示
     @IBOutlet weak var showdate: UILabel!
     @IBOutlet weak var showhungover: UILabel!
-    /*@IBOutlet weak var showbeer: UILabel!
-    @IBOutlet weak var showhighball: UILabel!
-    @IBOutlet weak var showwine: UILabel!
-    @IBOutlet weak var showcocktail: UILabel!*/
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -39,6 +32,8 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
     
     //削除ボタンアウトレット
     @IBOutlet weak var deletebutton: UIButton!
+    //編集ボタンアウトレット
+    @IBOutlet weak var editbutton: UIButton!
     //カレンダーのアウトレット
     @IBOutlet weak var calendar: FSCalendar!
     
@@ -68,25 +63,37 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
             
             //textfieldの初期化
             showhungover.text = ""
-            /*showbeer.text = ""
-            showhighball.text = ""
-            showwine.text = ""
-            showcocktail.text = ""
-            
-            beertext.text = ""
-            highballtext.text = ""
-            winetext.text = ""
-            cocktailtext.text = ""*/
      }
     }
     
+    //編集アクション
+    @IBAction func EditButton(_ sender: Any) {
+        if let date = selectedDate{
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd"
+            let drunkday = formatter.string(from: date)
+            print(drunkday)
+            //イベント編集へ
+            print("データ編集")
+            let realm = try! Realm()
+                try! realm.write(){
+                    print("データ書き込み")
+                    let newevent = [Event(value: ["editdate": drunkday])]
+                    realm.add(newevent)
+                    print("編集するデータ\(newevent)")
+                }
+    }
+        }
+
     
     
-    
+    //空配列
+     var KindOfDrinks = [String]()
+    //タップしたときの動作
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        TableView.reloadData()
         selectedDate = date
+        KindOfDrinks.removeAll()
+        TableView.reloadData()
         
         //日程の表示
         let formatter = DateFormatter()
@@ -95,34 +102,23 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         let da = formatter.string(from: date)
         showdate.text = da
         
-        
         //タップしたDateのスケジュール取得
         let realm = try! Realm()
         let result = realm.objects(Event.self).filter("date = '\(da)'")
+        
+        
         //全ての値を空白にする
         showhungover.text = ""
-        /*showbeer.text = ""
-        showhighball.text = ""
-        showwine.text = ""
-        showcocktail.text = ""
-        //文字も空白にする
-        beertext.text = ""
-        highballtext.text = ""
-        winetext.text = ""
-        cocktailtext.text = ""*/
         
         //event の全てが0という場合でないとき
         for ev in result {
             if ev.beer > 0 || ev.highball > 0 || ev.wine > 0 || ev.cocktail > 0{
-                /*beertext.text = "ビール"
-                highballtext.text = "ハイボール"
-                winetext.text = "ワイン"
-                cocktailtext.text = "カクテル"
-                
-                showbeer.text = "× \(ev.beer)杯"
-                showhighball.text = "× \(ev.highball)杯"
-                showwine.text = "× \(ev.wine)杯"
-                showcocktail.text = "× \(ev.cocktail)杯"*/
+                //配列に代入
+                KindOfDrinks.append("\(ev.beer)")
+                KindOfDrinks.append("\(ev.highball)")
+                KindOfDrinks.append("\(ev.wine)")
+                KindOfDrinks.append("\(ev.cocktail)")
+                print("タップ動作の際の配列の数\(KindOfDrinks.count)")
                 //その中でも二日酔いの状態の条件わけ
                 if ev.hungover == true{
                     showhungover.text = "二日酔い飲み"
@@ -132,7 +128,9 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
                     showhungover.textColor = UIColor.orange
                 }
             }
+        
         }
+        print(KindOfDrinks)
         
     }
     
@@ -170,36 +168,18 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    print("TableView関数の配列の数\(KindOfDrinks.count)")
+        return KindOfDrinks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得する
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let date = selectedDate{
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy/MM/dd"
-            let drunkday = formatter.string(from: date)
-            print(drunkday)
+        if selectedDate != nil{
             
-            let realm = try! Realm()
-            let events = realm.objects(Event.self).filter("date == %@", drunkday)
+            cell.textLabel?.text = KindOfDrinks[indexPath.row]
             
-            for event in events{
-                switch indexPath.row {
-                case 0:
-                    cell.textLabel?.text = "\(event.beer)"
-                case 1:
-                    cell.textLabel?.text = "\(event.highball)"
-                case 2:
-                    cell.textLabel?.text = "\(event.wine)"
-                case 3:
-                    cell.textLabel?.text = "\(event.cocktail)"
-                default:
-                    cell.textLabel?.text = ""
-                }
-            }
             return cell
         }else{
             cell.textLabel?.text = ""
