@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3EBB94F5ABFDD85FBC033CBD /* Pods_alcholecalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BC6D374174258A691B7E42 /* Pods_alcholecalendar.framework */; };
 		FA013E2A2214150200D9A042 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA013E2C2214150200D9A042 /* infoPlist.strings */; };
+		FA219CD8222136E600C194DA /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA219CD7222136E600C194DA /* EditViewController.swift */; };
 		FAE4D6AE22058B1E00633220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4D6AD22058B1E00633220 /* AppDelegate.swift */; };
 		FAE4D6B222058B1E00633220 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE4D6B122058B1E00633220 /* SecondViewController.swift */; };
 		FAE4D6B522058B1E00633220 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE4D6B322058B1E00633220 /* Main.storyboard */; };
@@ -26,6 +27,7 @@
 		FA013E262214149000D9A042 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		FA013E272214149100D9A042 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FA013E2B2214150200D9A042 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		FA219CD7222136E600C194DA /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		FAE4D6AA22058B1E00633220 /* alcholecalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = alcholecalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE4D6AD22058B1E00633220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAE4D6B122058B1E00633220 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				FAE4D6AD22058B1E00633220 /* AppDelegate.swift */,
 				FAE4D6C92205A46100633220 /* FirstViewController.swift */,
 				FAE4D6B122058B1E00633220 /* SecondViewController.swift */,
+				FA219CD7222136E600C194DA /* EditViewController.swift */,
 				FAE4D6C122058D1400633220 /* ThirdViewController.swift */,
 				FAE4D6B322058B1E00633220 /* Main.storyboard */,
 				FAE4D6C322058D3900633220 /* Event.swift */,
@@ -231,6 +234,7 @@
 			files = (
 				FAE4D6CA2205A46100633220 /* FirstViewController.swift in Sources */,
 				FAE4D6B222058B1E00633220 /* SecondViewController.swift in Sources */,
+				FA219CD8222136E600C194DA /* EditViewController.swift in Sources */,
 				FAE4D6AE22058B1E00633220 /* AppDelegate.swift in Sources */,
 				FAE4D6C222058D1400633220 /* ThirdViewController.swift in Sources */,
 				FAE4D6C422058D3900633220 /* Event.swift in Sources */,
