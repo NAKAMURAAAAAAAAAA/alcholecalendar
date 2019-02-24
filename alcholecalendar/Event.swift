@@ -15,8 +15,10 @@ class Event: Object {
     @objc dynamic var beer: Int = 0
     @objc dynamic var highball: Int = 0
     @objc dynamic var wine: Int = 0
+    @objc dynamic var sake: Int = 0
+    @objc dynamic var shochu: Int = 0
     @objc dynamic var cocktail: Int = 0
     @objc dynamic var hungover: Bool = false
-    
+    @objc dynamic var lighthungover: Bool = false
     
 }

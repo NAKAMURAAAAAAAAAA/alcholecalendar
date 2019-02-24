@@ -26,6 +26,13 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         // Do any additional setup after loading the view.
     }
     
+    //編集から値が入った時に、ViewControllerを更新する
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        calendar.reloadData()
+        print("viewWillAppear")
+    }
+    
     //削除ボタンアウトレット
     @IBOutlet weak var deletebutton: UIButton!
     //編集ボタンアウトレット
@@ -59,6 +66,9 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
             
             //textfieldの初期化
             showhungover.text = ""
+            //テーブルビューの初期化
+            KindOfDrinks = []
+            TableView.reloadData()
      }
     }
     
@@ -66,24 +76,7 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
     @IBAction func EditButton(_ sender: Any) {
         //PerformSegueの設定
         performSegue(withIdentifier: "toEditViewController",sender: nil)
-        
-        /* if let date = selectedDate{
-            
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy/MM/dd"
-            let drunkday = formatter.string(from: date)
-            print(drunkday)
-            //イベント編集へ
-           print("データ編集")
-            let realm = try! Realm()
-                try! realm.write(){
-                    print("データ書き込み")
-                    let newevent = [Event(value: ["editdate": drunkday])]
-                    realm.add(newevent)
-                    print("編集するデータ\(newevent)")
-                }
-    }*/
-        }
+    }
     
     //Segue準備
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -114,6 +107,10 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         selectedDate = date
         
+        //編集ボタンと削除ボタンを動作可能にする
+        editbutton.isEnabled = true
+        deletebutton.isEnabled = true
+        
         //日程の表示
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
@@ -132,22 +129,34 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         if result.count > 0{
         //event の全てが0という場合でないとき
         for ev in result {
+            //何かが0以上の場合
+            if ev.beer > 0 || ev.highball > 0 || ev.wine > 0 || ev.cocktail > 0{
                 //配列に代入
+                if ev.beer>0{
+                    
+                }
+                
                 KindOfDrinks = [
-                    String(ev.beer),
-                    String(ev.highball),
-                    String(ev.wine),
-                    String(ev.cocktail)
+                    String("ビール　　× \(ev.beer)杯"),
+                    String("ハイボール　　× \(ev.highball)杯"),
+                    String("ワイン　　× \(ev.wine)杯"),
+                    String("チューハイ　　× \(ev.cocktail)杯"),
+                    String("日本酒　　× \(ev.sake)合"),
+                    String("焼酎　　× \(ev.shochu)杯")
                 ]
                 print("タップ動作の際の配列の数\(KindOfDrinks.count)")
                 //その中でも二日酔いの状態の条件わけ
                 if ev.hungover == true{
                     showhungover.text = "二日酔い飲み"
                     showhungover.textColor = UIColor.red
+                }else if ev.lighthungover == true{
+                    showhungover.text = "軽く二日酔い飲み"
+                    showhungover.textColor = UIColor.orange
                 }else{
                     showhungover.text = "適正飲酒"
-                    showhungover.textColor = UIColor.orange
+                    showhungover.textColor = UIColor(red: 252/255, green: 220/255, blue: 33/255, alpha: 1)
                 }
+            }
         
         }
         print(KindOfDrinks)
@@ -165,14 +174,20 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         //Realmよりデータ取得
         let realm = try! Realm()
         let drinkdays = realm.objects(Event.self).filter("beer > 0 || highball > 0 || wine > 0 || cocktail > 0")
+        let lighthungoverdays = realm.objects(Event.self).filter("lighthungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0)")
         let hungoverdays = realm.objects(Event.self).filter("hungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0)")
         //空配列準備
         var drinkDays = [String]()
+        var lighthungoverDays = [String]()
         var hungoverDays = [String]()
         
         //取得したdrinkdaysを配列に入れる
         for drinkday in drinkdays{
             drinkDays.append(drinkday.date)
+        }
+        //取得したlighthungoverdaysを配列に入れる
+        for lighthungoverday in lighthungoverdays{
+            lighthungoverDays.append(lighthungoverday.date)
         }
         //取得したhungoverdaysを配列に入れる
         for hungoverday in hungoverdays{
@@ -187,8 +202,10 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         //色分け
         if hungoverDays.contains(dataString){
             return UIColor.red
-        }else if drinkDays.contains(dataString){
+        }else if lighthungoverDays.contains(dataString){
             return UIColor.orange
+        }else if drinkDays.contains(dataString){
+            return UIColor(red: 252/255, green: 220/255, blue: 33/255, alpha: 1)
         }else{
             return nil
         }

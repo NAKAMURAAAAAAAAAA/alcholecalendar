@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tellhowdrunk" translatesAutoresizingMaskIntoConstraints="NO" id="qB5-MI-Smh">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="飲酒カレンダー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-cq-csa">
                                 <rect key="frame" x="116" y="468" width="143" height="24"/>
@@ -37,13 +37,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="qB5-MI-Smh" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="F65-Zy-0y5"/>
                             <constraint firstItem="qB5-MI-Smh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="H1z-EL-EjI"/>
                             <constraint firstItem="LVj-cq-csa" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fi8-tW-f7Z"/>
                             <constraint firstItem="90x-Xe-edc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="jrP-f1-42S"/>
                             <constraint firstItem="qB5-MI-Smh" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="oGe-rL-165"/>
                             <constraint firstItem="LVj-cq-csa" firstAttribute="top" secondItem="90x-Xe-edc" secondAttribute="bottom" constant="20" id="oco-mL-OW8"/>
                             <constraint firstItem="qB5-MI-Smh" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pxm-al-zh1"/>
-                            <constraint firstItem="qB5-MI-Smh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xaf-LF-yTy"/>
                             <constraint firstItem="90x-Xe-edc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="xgI-A3-ptf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

@@ -16,22 +16,47 @@ class SecondViewController: UIViewController{
     @IBOutlet weak var CupOfHighball: UITextField!
     @IBOutlet weak var CupOfWine: UITextField!
     @IBOutlet weak var CupOfCocktail: UITextField!
-    //スイッチによるBool値変換
-    var whichisswitch = false
-    @IBAction func HungoverSwitch(_ sender: UISwitch) {
-        if sender.isOn == true {
-            whichisswitch = true
-            print(sender.isOn)
-        } else {
-            whichisswitch = false
-        }
+    @IBOutlet weak var CupOfSake: UITextField!
+    @IBOutlet weak var CupOfShochu: UITextField!
+    
+    
+    //状態ボタン
+    @IBOutlet weak var GoodDrinkButton: UIButton!
+    @IBOutlet weak var LightHungoverButton: UIButton!
+    @IBOutlet weak var HungoverButton: UIButton!
+    
+    let doneimage:UIImage = UIImage(named:"yes")!
+    let undoneimage:UIImage = UIImage(named:"no")!
+    var status:Int = 0
+    
+    //状態のボタンアクション
+    @IBAction func TapGoodDrinkButton(_ sender: Any) {
+        GoodDrinkButton.setImage(doneimage, for: .normal)
+        LightHungoverButton.setImage(undoneimage, for: .normal)
+        HungoverButton.setImage(undoneimage, for: .normal)
+        status = 1
+        print(status)
+    }
+    @IBAction func TapLightHungoverButton(_ sender: Any) {
+        GoodDrinkButton.setImage(undoneimage, for: .normal)
+        LightHungoverButton.setImage(doneimage, for: .normal)
+        HungoverButton.setImage(undoneimage, for: .normal)
+        status = 2
+        print(status)
+    }
+    @IBAction func TapHungoverButton(_ sender: Any) {
+        GoodDrinkButton.setImage(undoneimage, for: .normal)
+        LightHungoverButton.setImage(undoneimage, for: .normal)
+        HungoverButton.setImage(doneimage, for: .normal)
+        status = 3
+        print(status)
     }
     
     //textfieldを数字にする
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let ts = [CupOfBeer, CupOfHighball, CupOfWine, CupOfCocktail]
+        let ts = [CupOfBeer, CupOfHighball, CupOfWine, CupOfCocktail, CupOfSake, CupOfShochu]
         for t in ts{
             t?.keyboardType = UIKeyboardType.numberPad
         }
@@ -54,6 +79,9 @@ class SecondViewController: UIViewController{
     }
     //ここまでtextfieldを数字にする
     
+    //状態の場合分け
+    var WhichIsLightHungover = false
+    var WhichIsHungover = false
     //「追加ボタン」のアクション
     @IBAction func Done(_ sender: Any) {
             //UIDatePickerからDateを取得する
@@ -70,6 +98,10 @@ class SecondViewController: UIViewController{
             let winenum = Int(winenumber) ?? 0
             let cocktailnumber = CupOfCocktail.text!
             let cocktailnum = Int(cocktailnumber) ?? 0
+            let sakenumber = CupOfSake.text!
+            let sakenum = Int(sakenumber) ?? 0
+            let shochunumber = CupOfShochu.text!
+            let shochunum = Int(shochunumber) ?? 0
             print(drunkday)
         
             //既存のdrunkdayのデータを削除する
@@ -82,10 +114,17 @@ class SecondViewController: UIViewController{
                 }
             }
         
+        //状態ボタンの場合分け
+        if status == 2{
+            WhichIsLightHungover = true
+        }else if status == 3{
+            WhichIsHungover = true
+        }
+        
            //Realmデータ書き込み
             try! realm.write(){
                 //日付表示の内容とスケジュール入力の内容が書き込まれる。
-                let Events = [Event(value: ["date": drunkday, "beer": beernum, "highball": highballnum, "wine": winenum, "cocktail": cocktailnum, "hungover": whichisswitch])]
+                let Events = [Event(value: ["date": drunkday, "beer": beernum, "highball": highballnum, "wine": winenum, "cocktail": cocktailnum, "sake": sakenum, "shochu": shochunum, "hungover": WhichIsHungover, "lighthungover": WhichIsLightHungover])]
                 realm.add(Events)
                 print("データ書き込み中")
                 print(Events)
