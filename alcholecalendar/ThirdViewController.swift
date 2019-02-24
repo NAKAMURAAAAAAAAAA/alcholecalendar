@@ -11,12 +11,47 @@ import RealmSwift
 
 class ThirdViewController: UIViewController {
 
-   
+    @IBOutlet weak var Average: UILabel!
+    @IBOutlet weak var CupOfLightHungover: UILabel!
     @IBOutlet weak var CupOfHungover: UILabel!
     
-    func getstatus() -> String?{
+    //平均算出
+    func GetCupOfAverage() -> String?{
         let realm = try! Realm()
-        let results = realm.objects(Event.self).filter("hungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0)")
+        let results = realm.objects(Event.self).filter("beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0")
+        if results.count > 1{
+            var sum = 0
+            for res in results{
+                let alchole = res.beer + res.highball + res.wine + res.cocktail
+                sum += alchole
+            }
+            return "\(sum / results.count)杯"
+        }else{
+            return "データ不足"
+        }
+    }
+    
+    
+     //軽い二日酔いの杯数集計
+    func GetCupOfLightHungover() -> String?{
+        let realm = try! Realm()
+        let results = realm.objects(Event.self).filter("lighthungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0)")
+        if results.count > 1{
+            var sum = 0
+            for res in results{
+                let alchole = res.beer + res.highball + res.wine + res.cocktail
+                sum += alchole
+            }
+            return "\(sum / results.count)杯"
+        }else{
+            return "二日酔い\nデータ不足"
+        }
+    }
+    
+    //二日酔いの杯数集計
+    func GetCupOfHungover() -> String?{
+        let realm = try! Realm()
+        let results = realm.objects(Event.self).filter("hungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0)")
         if results.count > 1{
         var sum = 0
         for res in results{
@@ -31,9 +66,13 @@ class ThirdViewController: UIViewController {
     
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        CupOfHungover.text = getstatus()
+        Average.text = GetCupOfAverage()
+        CupOfLightHungover.text = GetCupOfLightHungover()
+        CupOfHungover.text = GetCupOfHungover()
         // Do any additional setup after loading the view.
     }
     

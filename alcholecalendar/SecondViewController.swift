@@ -127,7 +127,7 @@ class SecondViewController: UIViewController{
                 let Events = [Event(value: ["date": drunkday, "beer": beernum, "highball": highballnum, "wine": winenum, "cocktail": cocktailnum, "sake": sakenum, "shochu": shochunum, "hungover": WhichIsHungover, "lighthungover": WhichIsLightHungover])]
                 realm.add(Events)
                 print("データ書き込み中")
-                print(Events)
+                print("追加されたEvents\(Events)")
             }
             print("データ書き込み完了")
             
