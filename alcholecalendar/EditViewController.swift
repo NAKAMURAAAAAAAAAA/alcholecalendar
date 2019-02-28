@@ -136,6 +136,10 @@ class EditViewController: UIViewController {
     }
     
     //タブバー表示のため
+    @IBAction func bsck(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+
+    }
     @IBAction func tapAdd(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -143,3 +147,5 @@ class EditViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+

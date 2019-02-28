@@ -130,19 +130,15 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
         //event の全てが0という場合でないとき
         for ev in result {
             //何かが0以上の場合
-            if ev.beer > 0 || ev.highball > 0 || ev.wine > 0 || ev.cocktail > 0{
-                //配列に代入
-                if ev.beer>0{
-                    
-                }
+            if ev.beer > 0 || ev.highball > 0 || ev.wine > 0 || ev.cocktail > 0  || ev.sake > 0 || ev.shochu > 0{
                 
                 KindOfDrinks = [
-                    String("ビール　　× \(ev.beer)杯"),
-                    String("ハイボール　　× \(ev.highball)杯"),
-                    String("ワイン　　× \(ev.wine)杯"),
-                    String("チューハイ　　× \(ev.cocktail)杯"),
-                    String("日本酒　　× \(ev.sake)合"),
-                    String("焼酎　　× \(ev.shochu)杯")
+                    String("ビール　　　　　　　　　　　× \(ev.beer)杯"),
+                    String("ハイボール　　　　　　　　　× \(ev.highball)杯"),
+                    String("ワイン　　　　　　　　　　　× \(ev.wine)杯"),
+                    String("チューハイ　　　　　　　　　× \(ev.cocktail)杯"),
+                    String("日本酒　　　　　　　　　　　× \(ev.sake)合"),
+                    String("焼酎　　　　　　　　　　　　× \(ev.shochu)杯")
                 ]
                 print("タップ動作の際の配列の数\(KindOfDrinks.count)")
                 //その中でも二日酔いの状態の条件わけ
@@ -150,7 +146,7 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
                     showhungover.text = "二日酔い飲み"
                     showhungover.textColor = UIColor.red
                 }else if ev.lighthungover == true{
-                    showhungover.text = "軽く二日酔い飲み"
+                    showhungover.text = "軽い二日酔い飲み"
                     showhungover.textColor = UIColor.orange
                 }else{
                     showhungover.text = "適正飲酒"
@@ -173,9 +169,9 @@ class FirstViewController: UIViewController, FSCalendarDelegate, FSCalendarDataS
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         //Realmよりデータ取得
         let realm = try! Realm()
-        let drinkdays = realm.objects(Event.self).filter("beer > 0 || highball > 0 || wine > 0 || cocktail > 0")
-        let lighthungoverdays = realm.objects(Event.self).filter("lighthungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0)")
-        let hungoverdays = realm.objects(Event.self).filter("hungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0)")
+        let drinkdays = realm.objects(Event.self).filter("beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0")
+        let lighthungoverdays = realm.objects(Event.self).filter("lighthungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0)")
+        let hungoverdays = realm.objects(Event.self).filter("hungover == true && (beer > 0 || highball > 0 || wine > 0 || cocktail > 0 || sake > 0 || shochu > 0)")
         //空配列準備
         var drinkDays = [String]()
         var lighthungoverDays = [String]()
