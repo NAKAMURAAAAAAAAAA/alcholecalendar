@@ -89,10 +89,10 @@ class ThirdViewController: UIViewController {
         print("ViewController/viewDidAppear/画面が表示された直後")
         print("土曜日\(SATURDAY)")
         if MONDAY > 150 || TUESDAY > 150 || WEDNESDAY > 150 || THURSDAY > 150 || FRIDAY > 150 || SATURDAY >  150{
-            comment.text = "１週間に飲めるアルコール量150gを\n超えたにゃ! 今週はもう控えめに!!"
+            comment.text = "１週間に飲めるアルコール量150g\n超えたにゃ! 今週はもう控えめにゃ!!"
             comment.textColor = UIColor.red
         }else{
-            comment.text = "１週間でアルコールを150g以上飲んでたら\n飲みすぎにゃ"
+            comment.text = "１週間でアルコールを150g以上\n飲んでたら飲みすぎにゃ"
             comment.textColor = UIColor.black
         }
 

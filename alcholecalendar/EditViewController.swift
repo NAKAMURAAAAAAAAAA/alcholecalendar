@@ -56,7 +56,32 @@ class EditViewController: UIViewController {
     //textfieldを数字にする
     override func viewDidLoad() {
         super.viewDidLoad()
+        //editdate の初期値を入れる
         editdate.date = EDITDATE!
+        
+        //textfieldの初期値に編集日Eventのデータを入れる
+        print("DIDLOADの編集日\(EDITDATE!)")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let dayofdrink = formatter.string(from: EDITDATE!)
+        print("編集日\(dayofdrink)")
+        let realm = try! Realm()
+        let result = realm.objects(Event.self).filter("date = '\(dayofdrink)'")
+        print("編集日\(result.count)")
+        if result.count > 0 {
+            for res in result{
+                CupOfBeer.text = "\(res.beer)"
+                CupOfHighball.text = "\(res.highball)"
+                CupOfWine.text = "\(res.wine)"
+                CupOfCocktail.text = "\(res.cocktail)"
+                CupOfSake.text = "\(res.sake)"
+                CupOfShochu.text = "\(res.shochu)"
+            }
+        }
+
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         let ts = [CupOfBeer, CupOfHighball, CupOfWine, CupOfCocktail, CupOfSake, CupOfShochu]
         for t in ts{
